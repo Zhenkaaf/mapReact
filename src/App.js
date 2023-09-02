@@ -21,7 +21,7 @@ import {
 import { FaLocationArrow, FaTimes } from "react-icons/fa";
 import { useRef, useState } from "react";
 
-const center = { lat: 50.45466, lng: 30.5238 };
+const center = { lat: 49.0139, lng: 31.2858 };
 
 function App() {
   const { isLoaded } = useJsApiLoader({
@@ -33,6 +33,7 @@ function App() {
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
+  const [routeKey, setRouteKey] = useState(Date.now());
 
   /** @type React.MutableRefObject<HTMLInputElement> */
   const originRef = useRef();
@@ -66,6 +67,7 @@ function App() {
     setDuration("");
     originRef.current.value = "";
     destiantionRef.current.value = "";
+    setRouteKey(Date.now()); // Создать новый ключ для GoogleMap
   }
 
   return (
@@ -85,11 +87,12 @@ function App() {
       >
         {/* Google Map Box */}
         <GoogleMap
+          key={routeKey}
           center={center}
-          zoom={15}
+          zoom={6}
           mapContainerStyle={{ width: "100%", height: "100%" }}
           options={{
-            zoomControl: false,
+            zoomControl: true,
             streetViewControl: false,
             mapTypeControl: false,
             fullscreenControl: false,
